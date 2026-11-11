@@ -1,0 +1,55 @@
+# Acrescente este bloco ao Caddyfile que já existe na VM e recarregue:
+#   sudo systemctl reload caddy                                        (Caddy instalado na VM)
+#   docker exec lupa-caddy caddy reload --config /etc/caddy/Caddyfile   (Caddy em container: caso da VM atual)
+
+# ---------- VERSÃO DE TESTE ----------
+ls.vhmedeiros.dev.br {
+	encode zstd gzip
+
+	# Caddy em container (VM atual, "lupa-caddy"): chama pelo nome do container.
+	reverse_proxy ls-landing:3000
+
+	# Se um dia o Caddy for instalado direto na VM (fora do Docker):
+	# reverse_proxy 127.0.0.1:3010
+
+	# Senha opcional para a versão de teste.
+	# Gere o hash com:  caddy hash-password --plaintext 'sua-senha'
+	# (Caddy em container: docker exec lupa-caddy caddy hash-password --plaintext 'sua-senha')
+	# Obs.: com senha ligada, a prévia do link no WhatsApp NÃO aparece
+	# (o WhatsApp não consegue abrir a página). Em Caddy < 2.8 escreva "basicauth".
+	# basic_auth {
+	# 	cliente $2a$14$COLE_AQUI_O_HASH_GERADO
+	# }
+
+	# Arquivos com hash no nome podem ficar em cache "para sempre"
+	@static path /_next/static/*
+	header @static Cache-Control "public, max-age=31536000, immutable"
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		-Server
+	}
+}
+
+# ---------- DEPOIS QUE O CLIENTE APROVAR (domínio definitivo) ----------
+# 1) Troque o bloco de cima por este (o site passa a responder no domínio do cliente):
+# www.dominiodocliente.com.br {
+# 	encode zstd gzip
+# 	reverse_proxy ls-landing:3000
+# 	@static path /_next/static/*
+# 	header @static Cache-Control "public, max-age=31536000, immutable"
+# 	header {
+# 		Strict-Transport-Security "max-age=31536000"
+# 		-Server
+# 	}
+# }
+#
+# 2) Domínio sem www -> com www:
+# dominiodocliente.com.br {
+# 	redir https://www.dominiodocliente.com.br{uri} permanent
+# }
+#
+# 3) Subdomínio de teste -> domínio definitivo (301, mantém o caminho):
+# ls.vhmedeiros.dev.br {
+# 	redir https://www.dominiodocliente.com.br{uri} permanent
+# }

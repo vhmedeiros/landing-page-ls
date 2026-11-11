@@ -1,0 +1,16 @@
+# Liga o site à rede Docker do Caddy (quando o Caddy roda em container).
+# Ativado pelo .env da VM:
+#   COMPOSE_FILE=docker-compose.yml:docker-compose.caddy.yml
+#   PROXY_NETWORK=<rede do container do Caddy>
+# Para descobrir a rede:
+#   docker inspect lupa-caddy --format '{{range $k, $v := .NetworkSettings.Networks}}{{$k}} {{end}}'
+services:
+  landing:
+    networks:
+      - default
+      - proxy
+
+networks:
+  proxy:
+    external: true
+    name: ${PROXY_NETWORK:?defina PROXY_NETWORK no .env (rede do container do Caddy)}

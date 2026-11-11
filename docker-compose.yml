@@ -1,0 +1,27 @@
+services:
+  landing:
+    build:
+      context: .
+      args:
+        SITE_URL: ${SITE_URL:?defina SITE_URL no .env}
+        ALLOW_INDEXING: ${ALLOW_INDEXING:-false}
+        SHOW_PENDING: ${SHOW_PENDING:-true}
+        GOOGLE_SITE_VERIFICATION: ${GOOGLE_SITE_VERIFICATION:-}
+        NEXT_PUBLIC_GTM_ID: ${NEXT_PUBLIC_GTM_ID:-}
+        NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
+        NEXT_PUBLIC_GOOGLE_ADS_ID: ${NEXT_PUBLIC_GOOGLE_ADS_ID:-}
+        NEXT_PUBLIC_GOOGLE_ADS_WA_LABEL: ${NEXT_PUBLIC_GOOGLE_ADS_WA_LABEL:-}
+        NEXT_PUBLIC_META_PIXEL_ID: ${NEXT_PUBLIC_META_PIXEL_ID:-}
+    image: ls-landing:latest
+    # Nome único: a VM roda outros projetos. O Caddy (em container) chama
+    # o site por este nome: reverse_proxy ls-landing:3000
+    container_name: ls-landing
+    restart: unless-stopped
+    # Acesso local só pela própria VM (para testar com curl).
+    ports:
+      - "127.0.0.1:${HOST_PORT:-3010}:3000"
+
+# Caddy em container (caso da VM atual): o site também precisa entrar na rede
+# do Caddy. Isso fica em docker-compose.caddy.yml e é ligado pelo .env da VM:
+#   COMPOSE_FILE=docker-compose.yml:docker-compose.caddy.yml
+#   PROXY_NETWORK=<rede do container do Caddy>

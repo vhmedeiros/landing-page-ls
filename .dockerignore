@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.env
+.env.local
+Dockerfile
+docker-compose.yml
+README.md
+PENDENCIAS.md
+docs
+/*.png
+.agents
+.claude
+*:Zone.Identifier

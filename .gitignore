@@ -1,0 +1,18 @@
+node_modules
+.next
+out
+.env
+.env.local
+*.tsbuildinfo
+next-env.d.ts
+
+# lixo do Windows ao baixar arquivos
+*:Zone.Identifier
+
+# cache do Python (scripts da skill)
+__pycache__/
+
+# skills do Claude Code (ferramenta local, não faz parte do site)
+.agents/
+.claude/
+skills-lock.json
