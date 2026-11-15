@@ -55,7 +55,7 @@ export function JsonLd() {
     ...(sameAs.length ? { sameAs } : {}),
   };
 
-  const faqItems = site.faq.filter((f) => f.a && !f.pendente);
+  const faqItems = site.faq.filter((f) => f.a);
   const faq = {
     "@context": "https://schema.org",
     "@type": "FAQPage",

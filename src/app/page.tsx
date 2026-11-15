@@ -34,7 +34,7 @@ export default function Home() {
   const year = new Date().getFullYear();
   const pend = site.pendentes;
   // Perguntas sem resposta só aparecem na versão de teste (com o selo).
-  const faq = site.faq.filter((f) => f.a || (SHOW_PENDING && f.pendente));
+  const faq = site.faq.filter((f) => f.a);
   const showTestimonials = site.testimonials.length > 0 || (SHOW_PENDING && !!pend.testimonials);
   const instagram = site.social.instagram;
 
@@ -138,7 +138,7 @@ export default function Home() {
                   </span>
                   <h2>{h.title}</h2>
                   <p>{h.text}</p>
-                  <Pendente id={h.pendente} block />
+                  <Pendente id={null} block />
                 </div>
               ))}
             </div>
@@ -158,7 +158,7 @@ export default function Home() {
                   </span>
                   <h3>{s.title}</h3>
                   <p>{s.text}</p>
-                  <Pendente id={s.pendente} block />
+                  <Pendente id={null} block />
                   <WhatsAppLink
                     source={`servico:${s.title}`}
                     message={s.message}
@@ -221,7 +221,7 @@ export default function Home() {
             <SectionHead id="faq-titulo" eyebrow="Perguntas frequentes" title={site.faqTitle} />
             <div className="faq">
               {faq.map((f, i) => (
-                <details key={f.q} open={SHOW_PENDING && !!f.pendente} data-reveal="up" style={delay(i * 60)}>
+                <details key={f.q} open={false} data-reveal="up" style={delay(i * 60)}>
                   <summary>
                     {f.q}
                     <span className="faq-toggle" aria-hidden>
@@ -230,7 +230,7 @@ export default function Home() {
                   </summary>
                   <div className="faq-answer">
                     {f.a && <p>{f.a}</p>}
-                    <Pendente id={f.pendente} block />
+                    <Pendente id={null} block />
                   </div>
                 </details>
               ))}
