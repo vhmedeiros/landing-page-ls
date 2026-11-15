@@ -1,5 +1,7 @@
 # Landing page — LS Assessoria Veicular (Next.js + Docker)
 
+![Preview da página](docs/home.png)
+
 Página única, gerada como **HTML estático** (o Google lê tudo na hora, sem depender de JavaScript), com botões de WhatsApp rastreáveis, dados estruturados de negócio local e pronta para rodar atrás do Caddy.
 
 **Situação atual:** versão de teste em `https://ls.vhmedeiros.dev.br`. Todas as informações do cliente foram confirmadas — zero pendências. Próximo passo: passar para o domínio definitivo (veja [Passar para o domínio definitivo](#passar-para-o-domínio-definitivo)).
